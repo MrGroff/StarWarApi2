@@ -1,0 +1,175 @@
+:root {
+    --background-color: #000; /* Deep black for space theme */
+    --text-color: #f0f0f0; /* Light gray text */
+    --accent-color: #ffcc00; /* Yellow accent color */
+    --border-color: rgba(255, 255, 255, 0.2); /* Soft white for borders */
+
+    font-family: 'Star Jedi', sans-serif; /* Star Wars-themed font */
+    line-height: 1.5;
+    font-weight: 400;
+    color-scheme: light dark;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Star+Jedi&display=swap'); /* Import Star Wars font */
+
+a {
+    font-weight: 500;
+    color: var(--accent-color);
+    text-decoration: inherit;
+}
+
+    a:hover {
+        color: #ffdb4a; /* Brighter yellow on hover */
+    }
+
+body {
+    margin: 0;
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    place-items: center;
+    min-width: 320px;
+    min-height: 100vh;
+    background-image: url('path/to/your/stars-background.jpg'); /* Optional: Background image of stars */
+    background-size: cover; /* Cover the entire body */
+    padding: 20px; /* Add padding for small screens */
+    box-sizing: border-box; /* Include padding in width and height calculations */
+}
+
+h1 {
+    font-size: 2.5em; /* Slightly smaller font size for mobile */
+    line-height: 1.1;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Adds depth */
+    color: var(--accent-color); /* Use accent color for the title */
+    text-align: center; /* Center the heading */
+}
+.form-container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+}
+
+.starship-form {
+    display: flex;
+    flex-direction: column;
+}
+
+    .starship-form input,
+    .starship-form select {
+        margin-bottom: 15px;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        transition: border-color 0.3s;
+    }
+
+        .starship-form input:focus,
+        .starship-form select:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+.button-group {
+    display: flex;
+    justify-content: space-between;
+}
+
+.submit-button,
+.reset-button {
+    padding: 10px 15px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.submit-button {
+    background-color: #007bff;
+    color: white;
+}
+
+    .submit-button:hover {
+        background-color: #0056b3;
+    }
+
+.reset-button {
+    background-color: #f44336;
+    color: white;
+}
+
+    .reset-button:hover {
+        background-color: #c62828;
+    }
+button {
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    padding: 0.6em 1.2em;
+    font-size: 1em;
+    font-weight: 500;
+    font-family: inherit;
+    background-color: #1a1a1a; /* Dark button background */
+    color: var(--text-color);
+    cursor: pointer;
+    transition: border-color 0.25s, background-color 0.25s; /* Added transition for background color */
+}
+
+    button:hover {
+        border-color: var(--accent-color); /* Highlight border on hover */
+        background-color: rgba(255, 255, 255, 0.1); /* Slightly lighter on hover */
+    }
+
+    button:focus,
+    button:focus-visible {
+        outline: 4px auto var(--accent-color); /* Highlight focus outline */
+    }
+
+table {
+    width: 100%; /* Full width for table */
+    border-collapse: collapse; /* Collapses borders */
+}
+
+th, td {
+    padding: 0.8em; /* Padding for table cells */
+    text-align: left; /* Left align text */
+}
+
+@media (max-width: 600px) {
+    h1 {
+        font-size: 2em; /* Adjust font size for mobile */
+    }
+
+    button {
+        width: 100%; /* Full width buttons for mobile */
+    }
+
+    table {
+        font-size: 0.9em; /* Smaller font for table on mobile */
+    }
+}
+
+@media (prefers-color-scheme: light) {
+    :root {
+        color: #213547;
+        background-color: #ffffff; /* Light mode colors */
+    }
+
+    a:hover {
+        color: #747bff; /* Lighter hover color in light mode */
+    }
+
+    button {
+        background-color: #f9f9f9; /* Light button background */
+        color: #000; /* Dark text in light mode */
+    }
+}
