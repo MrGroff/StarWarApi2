@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import './App.css';
-
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 function App() {
     const [starships, setStarships] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -17,7 +19,7 @@ function App() {
         crew: '',
         length: '',
         maxAtmospheringSpeed: '',
-        MGLT: '',
+        mglt: '',
         starshipClass: '',
         passengers: '',
         hyperdriveRating: '',
@@ -33,7 +35,7 @@ function App() {
         crew: '',
         length: '',
         maxAtmospheringSpeed: '',
-        MGLT: '',
+        mglt: '',
         starshipClass: '',
         passengers: '',
         hyperdriveRating: '',
@@ -41,10 +43,11 @@ function App() {
     });
 
     useEffect(() => {
+        
         fetchStarships();
         fetchManufacturers();
     }, []);
-
+    
     const fetchStarships = async () => {
         setLoading(true);
         try {
@@ -62,6 +65,7 @@ function App() {
             const data = await response.json();
             setStarships(data);
             selectRandomStarship(data);
+            
         } catch (error) {
             console.error('Error fetching starships:', error);
         } finally {
@@ -93,6 +97,17 @@ function App() {
         if (starships.length > 0) {
             const randomIndex = Math.floor(Math.random() * starships.length);
             setSelectedStarship(starships[randomIndex]);
+        }
+    };
+    window.onload = function () {
+        // Check if the page has been reloaded already
+        if (!localStorage.getItem('reloaded')) {
+            setTimeout(function () {
+                // Reload the page
+                location.reload();
+                // Set the flag in localStorage so it only reloads once
+                localStorage.setItem('reloaded', 'true');
+            }, 3000); // 3000 milliseconds = 3 seconds
         }
     };
 
@@ -167,7 +182,7 @@ function App() {
             crew: '',
             length: '',
             maxAtmospheringSpeed: '',
-            MGLT: '',
+            mglt: '',
             starshipClass: '',
             passengers: '',
             hyperdriveRating: '',
@@ -205,7 +220,7 @@ function App() {
             crew: '',
             length: '',
             maxAtmospheringSpeed: '',
-            MGLT: '',
+            mglt: '',
             starshipClass: '',
             passengers: '',
             hyperdriveRating: '',
@@ -222,34 +237,61 @@ function App() {
             crew: '',
             length: '',
             maxAtmospheringSpeed: '',
-            MGLT: '',
+            mglt: '',
             starshipClass: '',
             passengers: '',
             hyperdriveRating: '',
             films: []
         });
     };
-
+    const sliderSettings = {
+        dots: true,
+        infinite: false,
+        speed: 500,
+        slidesToShow: 3,  // Adjust this depending on how many cards you want in a row
+        slidesToScroll: 1,
+        responsive: [
+            {
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 1,
+                    infinite: true,
+                    dots: true
+                }
+            },
+            {
+                breakpoint: 600,
+                settings: {
+                    slidesToShow: 1,  // Show 1 card per row on small screens
+                    slidesToScroll: 1
+                }
+            }
+        ]
+    };
     return (
         <div>
-            <h1 id="tableLabel">Random Starship</h1>
-            <p>This component demonstrates fetching starship data from the API.</p>
-            {loading ? (
-                <p><em>Loading... Please wait.</em></p>
-            ) : selectedStarship ? (
-                <div>
-                    <h2>{selectedStarship.name}</h2>
-                    <p>Model: {selectedStarship.model}</p>
-                    <p>Manufacturer: {selectedStarship.manufacturer}</p>
-                    <p>Cost: {selectedStarship.costInCredits}</p>
-                    <p>Crew: {selectedStarship.crew}</p>
-                    <p>Passengers: {selectedStarship.passengers}</p>
-                    <p>Length: {selectedStarship.length}</p>
-                    <p>Max Speed: {selectedStarship.maxAtmospheringSpeed}</p>
-                </div>
-            ) : (
-                <p>No starships available.</p>
-            )}
+            <div className="starship-container">
+                <h1 id="tableLabel">Random Starship</h1>
+                <p>This component demonstrates fetching starship data from the API.</p>
+
+                {loading ? (
+                    <p><em>Loading... Please wait.</em></p>
+                ) : selectedStarship ? (
+                    <div className="starship-details">
+                        <h2>{selectedStarship.name}</h2>
+                        <p><strong>Model:</strong> {selectedStarship.model}</p>
+                        <p><strong>Manufacturer:</strong> {selectedStarship.manufacturer}</p>
+                        <p><strong>Cost:</strong> {selectedStarship.costInCredits}</p>
+                        <p><strong>Crew:</strong> {selectedStarship.crew}</p>
+                        <p><strong>Passengers:</strong> {selectedStarship.passengers}</p>
+                        <p><strong>Length:</strong> {selectedStarship.length}</p>
+                        <p><strong>Max Speed:</strong> {selectedStarship.maxAtmospheringSpeed}</p>
+                    </div>
+                ) : (
+                    <p>No starships available.</p>
+                )}
+            </div>
 
             <div className="form-container">
                 <h2>{editStarship.id ? 'Edit Starship' : 'Create Starship'}</h2>
@@ -322,9 +364,9 @@ function App() {
                         required
                     />
                     <input
-                        name="MGLT"
+                        name="mglt"
                         placeholder="MGLT"
-                        value={editStarship.id ? editStarship.MGLT : newStarship.MGLT}
+                        value={editStarship.id ? editStarship.mglt : newStarship.mglt}
                         onChange={handleInputChange}
                         required
                     />
@@ -355,33 +397,20 @@ function App() {
             {loading ? (
                 <p><em>Loading starship list...</em></p>
             ) : starships.length > 0 ? (
-                <table className="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Model</th>
-                            <th>Manufacturer</th>
-                            <th>Cost (Credits)</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {starships.map(starship => (
-                            <tr key={starship.id}>
-                                <td>{starship.name}</td>
-                                <td>{starship.model}</td>
-                                <td>{starship.manufacturer}</td>
-                                <td>{starship.costInCredits}</td>
-                                <td>
-                                    <button onClick={() => handleEdit(starship)}>Edit</button>
-                                    <button onClick={() => handleDelete(starship.id)}>Delete</button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                <Slider {...sliderSettings}>
+                    {starships.map(starship => (
+                        <div key={starship.id} className="card">
+                            <h3>{starship.name}</h3>
+                            <p><strong>Model:</strong> {starship.model}</p>
+                            <p><strong>Manufacturer:</strong> {starship.manufacturer}</p>
+                            <p><strong>Cost (Credits):</strong> {starship.costInCredits}</p>
+                            <button onClick={() => handleEdit(starship)}>Edit</button>
+                            <button onClick={() => handleDelete(starship.id)}>Delete</button>
+                        </div>
+                    ))}
+                </Slider>
             ) : (
-                <p>No starships found in the list.</p>
+                <p>No starships found.</p>
             )}
         </div>
     );

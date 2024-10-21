@@ -1,22 +1,33 @@
 :root {
-    --background-color: #000; /* Deep black for space theme */
-    --text-color: #f0f0f0; /* Light gray text */
+    --background-color: #ffffff; /* Background color */
+    --text-color: #000000; /* Dark text for readability */
     --accent-color: #ffcc00; /* Yellow accent color */
     --border-color: rgba(255, 255, 255, 0.2); /* Soft white for borders */
-
     font-family: 'Star Jedi', sans-serif; /* Star Wars-themed font */
-    line-height: 1.5;
-    font-weight: 400;
     color-scheme: light dark;
-    color: var(--text-color);
-    background-color: var(--background-color);
-    font-synthesis: none;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Star+Jedi&display=swap'); /* Import Star Wars font */
+
+body {
+    margin: 0;
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    align-items: center;
+    min-width: 320px;
+    min-height: 100vh;
+    background-color: var(--background-color); /* Set to the new background color */
+    padding: 20px; /* Add padding for small screens */
+    box-sizing: border-box; /* Include padding in width and height calculations */
+}
+
+h1 {
+    font-size: 2.5em; /* Responsive heading size */
+    line-height: 1.1;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Adds depth */
+    color: var(--accent-color); /* Use accent color for the title */
+    text-align: center; /* Center the heading */
+}
 
 a {
     font-weight: 500;
@@ -28,34 +39,108 @@ a {
         color: #ffdb4a; /* Brighter yellow on hover */
     }
 
-body {
-    margin: 0;
-    display: flex;
-    flex-direction: column; /* Stack elements vertically */
-    place-items: center;
-    min-width: 320px;
-    min-height: 100vh;
-    background-image: url('path/to/your/stars-background.jpg'); /* Optional: Background image of stars */
-    background-size: cover; /* Cover the entire body */
-    padding: 20px; /* Add padding for small screens */
-    box-sizing: border-box; /* Include padding in width and height calculations */
+.form-container,
+.starship-container {
+    
+    max-width: 100%; /* Full width for mobile devices */
+    margin: 20px 10px; /* Center the container with reduced side margins */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    background-color: #f9f9f9; /* Light background color */
 }
 
-h1 {
-    font-size: 2.5em; /* Slightly smaller font size for mobile */
-    line-height: 1.1;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Adds depth */
-    color: var(--accent-color); /* Use accent color for the title */
-    text-align: center; /* Center the heading */
-}
-.form-container {
-    max-width: 600px;
-    margin: 20px auto;
+.card {
+    white-space: nowrap;
     padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    background-color: #f9f9f9;
+    margin: 10px;
+    border: 1px solid #ddd;
+    background-color: #444; /* Dark card background */
+    color: white;
+    border-radius: 5px;
+    text-align: center;
+}
+
+    .card button {
+        background-color: #ffcc00;
+        border: none;
+        padding: 10px 15px; /* Increased padding for better touch targets */
+        margin: 5px 0; /* Small vertical margin for spacing */
+        cursor: pointer;
+        border-radius: 5px;
+        font-size: 1.2em; /* Larger font size for readability */
+        width: 30%; /* Full width for better usability */
+    }
+
+        .card button:hover {
+            background-color: #e6b800; /* Darker yellow on hover */
+        }
+
+.slick-prev, .slick-next {
+    width: 40px; /* Button width */
+    height: 40px; /* Button height */
+    background-color: rgba(255, 204, 0, 0.8); /* Semi-transparent yellow */
+    color: white; /* Icon color */
+    border: none; /* Remove default borders */
+    border-radius: 50%; /* Make buttons circular */
+    display: flex; /* Flexbox for centering */
+    justify-content: center; /* Center icon */
+    align-items: center; /* Center icon */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s, transform 0.2s; /* Smooth transitions */
+    z-index: 1000; /* Ensure buttons are above other elements */
+}
+
+    .slick-prev:hover, .slick-next:hover {
+        background-color: rgba(255, 204, 0, 1); /* Solid background on hover */
+        transform: scale(1.1); /* Slightly enlarge on hover */
+    }
+
+    .slick-prev:focus, .slick-next:focus {
+        outline: 4px solid rgba(255, 204, 0, 1); /* Highlight focus state for accessibility */
+    }
+
+/* Positioning the buttons */
+.slick-prev {
+    left: 10px; /* Distance from the left */
+}
+
+.slick-next {
+    right: 10px; /* Distance from the right */
+}
+
+    /* Arrow icons */
+    .slick-prev:before, .slick-next:before {
+        font-family: 'Font Awesome 5 Free'; /* Use Font Awesome for icons */
+        font-weight: 900; /* Bold icons */
+        font-size: 20px; /* Icon size */
+        color: white; /* Icon color */
+    }
+
+.slick-prev:before {
+    content: '\f104'; /* Left arrow icon */
+}
+
+.slick-next:before {
+    content: '\f105'; /* Right arrow icon */
+}
+
+/* Slider Dots */
+.slick-dots li button:before {
+    color: #ffcc00; /* Dots color */
+}
+
+.slick-dots li.slick-active button:before {
+    color: white; /* Active dot color */
+}
+
+/* Starship details */
+.starship-details h2 {
+    margin: 10px 0; /* Space above and below the title */
+}
+
+.starship-details p {
+    margin: 5px 0; /* Space between paragraphs */
 }
 
 .starship-form {
@@ -75,7 +160,7 @@ h1 {
 
         .starship-form input:focus,
         .starship-form select:focus {
-            border-color: #007bff;
+            border-color: #007bff; /* Focus border color */
             outline: none;
         }
 
@@ -95,29 +180,29 @@ h1 {
 }
 
 .submit-button {
-    background-color: #007bff;
+    background-color: #007bff; /* Submit button color */
     color: white;
 }
 
     .submit-button:hover {
-        background-color: #0056b3;
+        background-color: #0056b3; /* Submit button hover color */
     }
 
 .reset-button {
-    background-color: #f44336;
+    background-color: #f44336; /* Reset button color */
     color: white;
 }
 
     .reset-button:hover {
-        background-color: #c62828;
+        background-color: #c62828; /* Reset button hover color */
     }
+
 button {
     border-radius: 8px;
     border: 1px solid var(--border-color);
     padding: 0.6em 1.2em;
     font-size: 1em;
     font-weight: 500;
-    font-family: inherit;
     background-color: #1a1a1a; /* Dark button background */
     color: var(--text-color);
     cursor: pointer;
@@ -129,8 +214,7 @@ button {
         background-color: rgba(255, 255, 255, 0.1); /* Slightly lighter on hover */
     }
 
-    button:focus,
-    button:focus-visible {
+    button:focus {
         outline: 4px auto var(--accent-color); /* Highlight focus outline */
     }
 
@@ -139,7 +223,8 @@ table {
     border-collapse: collapse; /* Collapses borders */
 }
 
-th, td {
+th,
+td {
     padding: 0.8em; /* Padding for table cells */
     text-align: left; /* Left align text */
 }
@@ -151,6 +236,12 @@ th, td {
 
     button {
         width: 100%; /* Full width buttons for mobile */
+    }
+
+    .card button {
+        padding: 10px 15px; /* Increased padding for better touch targets */
+        font-size: 1.2em; /* Larger font size for readability */
+        margin: 10px 0; /* Vertical margin for better spacing */
     }
 
     table {
