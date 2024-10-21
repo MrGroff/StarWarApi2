@@ -17,7 +17,7 @@ function App() {
         crew: '',
         length: '',
         maxAtmospheringSpeed: '',
-        MGLT: '',
+        mglt: '',
         starshipClass: '',
         passengers: '',
         hyperdriveRating: '',
@@ -33,7 +33,7 @@ function App() {
         crew: '',
         length: '',
         maxAtmospheringSpeed: '',
-        MGLT: '',
+        mglt: '',
         starshipClass: '',
         passengers: '',
         hyperdriveRating: '',
@@ -167,7 +167,7 @@ function App() {
             crew: '',
             length: '',
             maxAtmospheringSpeed: '',
-            MGLT: '',
+            mglt: '',
             starshipClass: '',
             passengers: '',
             hyperdriveRating: '',
@@ -205,7 +205,7 @@ function App() {
             crew: '',
             length: '',
             maxAtmospheringSpeed: '',
-            MGLT: '',
+            mglt: '',
             starshipClass: '',
             passengers: '',
             hyperdriveRating: '',
@@ -222,7 +222,7 @@ function App() {
             crew: '',
             length: '',
             maxAtmospheringSpeed: '',
-            MGLT: '',
+            mglt: '',
             starshipClass: '',
             passengers: '',
             hyperdriveRating: '',
@@ -324,7 +324,7 @@ function App() {
                     <input
                         name="MGLT"
                         placeholder="MGLT"
-                        value={editStarship.id ? editStarship.MGLT : newStarship.MGLT}
+                        value={editStarship.id ? editStarship.mglt : newStarship.mglt}
                         onChange={handleInputChange}
                         required
                     />

@@ -1,6 +1,7 @@
 ﻿using System.Net.Http;
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using StarWarApi2.Server.Data;
 using StarWarApi2.Server.Models;
 
@@ -25,12 +26,13 @@ namespace StarWarApi2.Server.Services
             }
 
             var response = await _httpClient.GetStringAsync("https://swapi.dev/api/starships/");
-            var options = new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true // Allows case insensitive property mapping
-            };
+            //var options = new JsonSerializerOptions
+            //{
+            //    PropertyNameCaseInsensitive = true, // Allows case insensitive property mapping
+            //    PropertyNamingPolicy = new SnakeCaseNamingPolicy()
+            //};
 
-            var starshipData = JsonSerializer.Deserialize<StarshipResponse>(response, options);
+            var starshipData = JsonConvert.DeserializeObject<StarshipResponse>(response);
             foreach (var starship in starshipData.Results)
             {
                 _context.Starships.Add(new Starship
