@@ -3,9 +3,11 @@ import './App.css';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+
 function App() {
     const [starships, setStarships] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
+    
     const [selectedStarship, setSelectedStarship] = useState(null);
     const [manufacturers, setManufacturers] = useState([]);
     const [editStarship, setEditStarship] = useState({
@@ -41,13 +43,62 @@ function App() {
         hyperdriveRating: '',
         films: []
     });
+    const [retryCount, setRetryCount] = useState(0); // For starship retry
+    const [manufacturerRetryCount, setManufacturerRetryCount] = useState(0); // For manufacturer retry
 
     useEffect(() => {
-        
-        fetchStarships();
-        fetchManufacturers();
-    }, []);
-    
+        const fetchDataWithRetry = async () => {
+            await fetchStarshipsWithRetry();
+            await fetchManufacturersWithRetry();
+        };
+
+        fetchDataWithRetry();
+    }, []); // Empty dependency array to run once
+
+    const fetchStarshipsWithRetry = async () => {
+        const maxRetries = 5; // Maximum number of retries
+        const retryDelay = 3000; // Time (ms) between retries
+
+        const retryFetch = async (attempt = 0) => {
+            try {
+                await fetchStarships();
+            } catch (error) {
+                if (attempt < maxRetries) {
+                    setRetryCount(attempt + 1); // Increment retry count
+                    console.log(`Retrying starship fetch... attempt ${attempt + 1}`);
+                    setTimeout(() => retryFetch(attempt + 1), retryDelay); // Retry after delay
+                } else {
+                    console.error('Max retries reached for starships. Server might be down.');
+                    setLoading(false); // Stop loading after max retries
+                }
+            }
+        };
+
+        retryFetch(); // Start retrying
+    };
+
+    const fetchManufacturersWithRetry = async () => {
+        const maxRetries = 5; // Maximum number of retries
+        const retryDelay = 3000; // Time (ms) between retries
+
+        const retryFetch = async (attempt = 0) => {
+            try {
+                await fetchManufacturers();
+            } catch (error) {
+                if (attempt < maxRetries) {
+                    setManufacturerRetryCount(attempt + 1); // Increment retry count for manufacturers
+                    console.log(`Retrying manufacturers fetch... attempt ${attempt + 1}`);
+                    setTimeout(() => retryFetch(attempt + 1), retryDelay); // Retry after delay
+                } else {
+                    console.error('Max retries reached for manufacturers. Server might be down.');
+                    setLoading(false); // Stop loading after max retries
+                }
+            }
+        };
+
+        retryFetch(); // Start retrying
+    };
+
     const fetchStarships = async () => {
         setLoading(true);
         try {
@@ -63,11 +114,12 @@ function App() {
             }
 
             const data = await response.json();
+            
             setStarships(data);
             selectRandomStarship(data);
-            
         } catch (error) {
             console.error('Error fetching starships:', error);
+            throw error; // Rethrow error to trigger retry
         } finally {
             setLoading(false);
         }
@@ -90,24 +142,15 @@ function App() {
             setManufacturers(data);
         } catch (error) {
             console.error('Error fetching manufacturers:', error);
+            throw error; // Rethrow error to trigger retry
         }
     };
+
 
     const selectRandomStarship = (starships) => {
         if (starships.length > 0) {
             const randomIndex = Math.floor(Math.random() * starships.length);
             setSelectedStarship(starships[randomIndex]);
-        }
-    };
-    window.onload = function () {
-        // Check if the page has been reloaded already
-        if (!localStorage.getItem('reloaded')) {
-            setTimeout(function () {
-                // Reload the page
-                location.reload();
-                // Set the flag in localStorage so it only reloads once
-                localStorage.setItem('reloaded', 'true');
-            }, 3000); // 3000 milliseconds = 3 seconds
         }
     };
 
@@ -154,7 +197,7 @@ function App() {
             }
 
             const createdOrUpdatedStarship = await response.json();
-
+            window.location.reload();
             if (editStarship.id) {
                 setStarships(prev => prev.map(starship =>
                     (starship.id === createdOrUpdatedStarship.id ? createdOrUpdatedStarship : starship)
@@ -171,8 +214,8 @@ function App() {
     };
 
     const handleEdit = (starship) => {
-        setEditStarship(starship); // Populate the form with the starship data for editing
-        setNewStarship({ // Clear newStarship data
+        setEditStarship(starship);
+        setNewStarship({
             name: '',
             model: '',
             manufacturer: '',
@@ -191,6 +234,9 @@ function App() {
     };
 
     const handleDelete = async (id) => {
+        // Optimistically remove the starship from the state
+        setStarships(prev => prev.filter(starship => starship.id !== id));
+
         try {
             const response = await fetch(`/starships/delete/${id}`, {
                 method: 'DELETE',
@@ -203,9 +249,18 @@ function App() {
                 throw new Error('Failed to delete starship');
             }
 
-            setStarships(prev => prev.filter(starship => starship.id !== id));
+            // If delete was successful, refresh the page quietly
+            console.log('Starship deleted successfully');
+            
         } catch (error) {
             console.error('Error deleting starship:', error);
+
+            // Optionally show an error message to the user
+            alert('Failed to delete the starship. Please try again.');
+
+            // Since we have optimistically updated, we might want to refresh if needed
+            // To ensure the state remains consistent with the server
+            // Refresh the page to sync state
         }
     };
 
@@ -244,11 +299,12 @@ function App() {
             films: []
         });
     };
+
     const sliderSettings = {
         dots: true,
         infinite: false,
         speed: 500,
-        slidesToShow: 3,  // Adjust this depending on how many cards you want in a row
+        slidesToShow: 3,
         slidesToScroll: 1,
         responsive: [
             {
@@ -263,12 +319,13 @@ function App() {
             {
                 breakpoint: 600,
                 settings: {
-                    slidesToShow: 1,  // Show 1 card per row on small screens
+                    slidesToShow: 1,
                     slidesToScroll: 1
                 }
             }
         ]
     };
+
     return (
         <div>
             <div className="starship-container">
