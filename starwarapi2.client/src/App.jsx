@@ -251,7 +251,7 @@ function App() {
 
             // If delete was successful, refresh the page quietly
             console.log('Starship deleted successfully');
-            
+            window.location.reload(); // Refresh the page
         } catch (error) {
             console.error('Error deleting starship:', error);
 
@@ -300,31 +300,7 @@ function App() {
         });
     };
 
-    const sliderSettings = {
-        dots: true,
-        infinite: false,
-        speed: 500,
-        slidesToShow: 3,
-        slidesToScroll: 1,
-        responsive: [
-            {
-                breakpoint: 1024,
-                settings: {
-                    slidesToShow: 3,
-                    slidesToScroll: 1,
-                    infinite: true,
-                    dots: true
-                }
-            },
-            {
-                breakpoint: 600,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1
-                }
-            }
-        ]
-    };
+    
 
     return (
         <div>
@@ -351,22 +327,30 @@ function App() {
             </div>
 
             <div className="form-container">
-                <h2>{editStarship.id ? 'Edit Starship' : 'Create Starship'}</h2>
+                <h3>{editStarship.id ? 'Edit Starship' : 'Create Starship'}</h3>
                 <form onSubmit={handleSubmit} className="starship-form">
+                    <div className="form-group">
+                    <h3>Name</h3>
                     <input
                         name="name"
                         placeholder="Name"
                         value={editStarship.id ? editStarship.name : newStarship.name}
                         onChange={handleInputChange}
                         required
-                    />
+                        />
+                    </div>
+                    <div className="form-group">
+                    <h3>Model</h3>
                     <input
                         name="model"
                         placeholder="Model"
                         value={editStarship.id ? editStarship.model : newStarship.model}
                         onChange={handleInputChange}
                         required
-                    />
+                        />
+                    </div>
+                    <div className="form-group">
+                    <h3>Manufacturer</h3>
                     <select
                         name="manufacturer"
                         value={editStarship.id ? editStarship.manufacturer : newStarship.manufacturer}
@@ -377,63 +361,90 @@ function App() {
                         {manufacturers.map(manufacturer => (
                             <option key={manufacturer} value={manufacturer}>{manufacturer}</option>
                         ))}
-                    </select>
+                        </select>
+                    </div>
+                    <div className="form-group">
+                    <h3>Cost In Credits</h3>
                     <input
                         name="costInCredits"
                         placeholder="Cost in Credits"
                         value={editStarship.id ? editStarship.costInCredits : newStarship.costInCredits}
                         onChange={handleInputChange}
                         required
-                    />
+                        />
+                    </div>
+                    <div className="form-group">
+                    <h3>Cargo Capacity</h3>
                     <input
                         name="cargoCapacity"
                         placeholder="Cargo Capacity"
                         value={editStarship.id ? editStarship.cargoCapacity : newStarship.cargoCapacity}
                         onChange={handleInputChange}
                         required
-                    />
+                        />
+                    </div>
+                    <div className="form-group">
+                    <h3>Consumables</h3>
                     <input
                         name="consumables"
                         placeholder="Consumables"
                         value={editStarship.id ? editStarship.consumables : newStarship.consumables}
                         onChange={handleInputChange}
                         required
-                    />
+                        />
+                    </div>
+                    <div className="form-group">
+                    <h3>Crew Size</h3>
                     <input
                         name="crew"
                         placeholder="Crew"
                         value={editStarship.id ? editStarship.crew : newStarship.crew}
                         onChange={handleInputChange}
                         required
-                    />
+                        />
+                    </div>
+                    <div className="form-group">
+                    <h3>Ship Length</h3>
                     <input
                         name="length"
                         placeholder="Length"
                         value={editStarship.id ? editStarship.length : newStarship.length}
                         onChange={handleInputChange}
                         required
-                    />
+                        />
+                    </div>
+                    <div className="form-group">
+                    <h3>Max Atmosphering Speed</h3>
                     <input
                         name="maxAtmospheringSpeed"
                         placeholder="Max Atmosphering Speed"
                         value={editStarship.id ? editStarship.maxAtmospheringSpeed : newStarship.maxAtmospheringSpeed}
                         onChange={handleInputChange}
                         required
-                    />
+                        />
+                    </div>
+                    <div className="form-group">
+                    <h3>Megalight</h3>
                     <input
                         name="mglt"
                         placeholder="MGLT"
                         value={editStarship.id ? editStarship.mglt : newStarship.mglt}
                         onChange={handleInputChange}
                         required
-                    />
+                        />
+                    </div>
+                    <div className="form-group">
+                    <h3>Passengers Size</h3>
                     <input
                         name="passengers"
                         placeholder="Passengers"
                         value={editStarship.id ? editStarship.passengers : newStarship.passengers}
                         onChange={handleInputChange}
                         required
-                    />
+                        />
+                    </div>
+                    <div className="form-group">
+                    <h3>Hyperdrive Rating</h3>
                     <input
                         name="hyperdriveRating"
                         placeholder="Hyperdrive Rating"
@@ -441,11 +452,18 @@ function App() {
                         onChange={handleInputChange}
                         required
                     />
+                    </div>
                     <div className="button-group">
-                        <button type="submit" className="submit-button">
-                            {editStarship.id ? 'Update Starship' : 'Create Starship'}
-                        </button>
-                        <button type="button" className="reset-button" onClick={resetForm}>Reset</button>
+                        <div className="submit-button-container"> {/* Container for the Submit button */}
+                            <button type="submit" className="submit-button">
+                                {editStarship.id ? 'Update Starship' : 'Create Starship'}
+                            </button>
+                        </div>
+                        <div className="reset-button-container"> {/* Container for the Reset button */}
+                            <button type="button" className="reset-button" onClick={resetForm}>
+                                Reset
+                            </button>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -454,18 +472,21 @@ function App() {
             {loading ? (
                 <p><em>Loading starship list...</em></p>
             ) : starships.length > 0 ? (
-                <Slider {...sliderSettings}>
+                <div className="starship-list">
                     {starships.map(starship => (
                         <div key={starship.id} className="card">
                             <h3>{starship.name}</h3>
                             <p><strong>Model:</strong> {starship.model}</p>
                             <p><strong>Manufacturer:</strong> {starship.manufacturer}</p>
                             <p><strong>Cost (Credits):</strong> {starship.costInCredits}</p>
-                            <button onClick={() => handleEdit(starship)}>Edit</button>
-                            <button onClick={() => handleDelete(starship.id)}>Delete</button>
+                            <div className="button-container"> {/* Added container for buttons */}
+                                <button onClick={() => handleEdit(starship)}>Edit</button>
+                                <button onClick={() => handleDelete(starship.id)}>Delete</button>
+                            </div>
+                            
                         </div>
                     ))}
-                </Slider>
+                </div>
             ) : (
                 <p>No starships found.</p>
             )}
