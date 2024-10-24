@@ -308,6 +308,8 @@ function App() {
 
     return (
         <div>
+            <img src="../src/xwingnew.png" alt="X-wing" className="xwing" />
+            
             <div className="starship-container">
                 <h1 id="tableLabel">Random Starship</h1>
                 <p>This component demonstrates fetching starship data from the API.</p>
@@ -331,7 +333,7 @@ function App() {
             </div>
 
             <div className="form-container">
-                <h3>{editStarship.id ? 'Edit Starship' : 'Create Starship'}</h3>
+                <h2>{editStarship.id ? 'Edit Starship' : 'Create Starship'}</h2>
                 <form onSubmit={handleSubmit} className="starship-form">
                     <div className="form-group">
                         <h3>Name</h3>
