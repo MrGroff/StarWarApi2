@@ -63,6 +63,25 @@ body {
     opacity: 0.8; /* Slight transparency */
     transform: scaleX(-1); /* Flip the X-wing horizontally */
 }
+
+.listLabel {
+    font-family: 'Star Jedi', sans-serif; /* Use a Star Wars-inspired font */
+    color: yellow; /* Classic Star Wars yellow text */
+    text-shadow: 2px 2px 5px rgba(255, 255, 0, 0.8), 4px 4px 15px rgba(255, 255, 0, 0.6); /* Glowing effect */
+    letter-spacing: 2px; /* Spaced letters for cinematic effect */
+    text-align: center; /* Center the text */
+    transform: perspective(500px) rotateX(25deg); /* Add a tilt for the crawl effect */
+}
+
+.tableLabel {
+    font-family: 'Star Jedi', sans-serif; /* Use a Star Wars-inspired font */
+    color: black; /* Classic Star Wars yellow text */
+    text-shadow: 2px 2px 5px rgba(255, 255, 0, 0.8), 4px 4px 15px rgba(255, 255, 0, 0.6); /* Glowing effect */
+    letter-spacing: 2px; /* Spaced letters for cinematic effect */
+    text-align: center; /* Center the text */
+    transform: perspective(500px) rotateX(25deg); /* Add a tilt for the crawl effect */
+}
+
 h1 {
     font-size: 2.5em; /* Responsive heading size */
     line-height: 1.1;
@@ -80,6 +99,7 @@ a {
     a:hover {
         color: #ffdb4a; /* Brighter yellow on hover */
     }
+
 .button-group {
     display: contents; /* Use flexbox for alignment */
     justify-content: center; /* Center align buttons */
@@ -97,7 +117,7 @@ a {
 
 /* Submit Button Styles */
 .submit-button {
-    justify-content:left;
+    justify-content: left;
     background-color: #007bff; /* Submit button color */
     color: white;
 }
@@ -120,7 +140,7 @@ a {
 .form-container,
 .starship-container {
     max-width: 600px; /* Maximum width for containers */
-    justify-content:center;
+    justify-content: center;
     width: 100%; /* Full width for mobile devices */
     margin: 20px auto; /* Center the container with reduced side margins */
     padding: 20px;
@@ -131,8 +151,6 @@ a {
     flex-direction: column; /* Stack children vertically */
     align-items: center; /* Center children */
 }
-
-
 
 .starship-list {
     display: flex;
@@ -153,25 +171,27 @@ a {
     flex-direction: column; /* Stack card contents vertically */
     align-items: baseline; /* Center contents */
 }
+
 .button-container {
     display: flex; /* Use flexbox to align buttons in a row */
     justify-content: space-between; /* Space buttons evenly */
     width: 100%; /* Make the container full width */
 }
-    .card button {
-        background-color: var(--accent-color);
-        border: none;
-        padding: 10px 15px; /* Increased padding for better touch targets */
-        margin: 5px 0; /* Small vertical margin for spacing */
-        cursor: pointer;
-        border-radius: 5px;
-        font-size: 1.2em; /* Larger font size for readability */
-        width: 30%; /* Full width for better usability */
-    }
 
-        .card button:hover {
-            background-color: #e6b800; /* Darker yellow on hover */
-        }
+.card button {
+    background-color: var(--accent-color);
+    border: none;
+    padding: 10px 15px; /* Increased padding for better touch targets */
+    margin: 5px 0; /* Small vertical margin for spacing */
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 1.2em; /* Larger font size for readability */
+    width: 30%; /* Full width for better usability */
+}
+
+    .card button:hover {
+        background-color: #e6b800; /* Darker yellow on hover */
+    }
 
 .slick-prev, .slick-next {
     width: 40px; /* Button width */
@@ -274,10 +294,10 @@ input {
     transition: border-color 0.3s; /* Smooth transition for focus */
 }
 
-input:focus {
-    border-color: #007bff; /* Focus border color */
-    outline: none; /* Remove default outline */
-}
+    input:focus {
+        border-color: #007bff; /* Focus border color */
+        outline: none; /* Remove default outline */
+    }
 
 button {
     grid-column: span 2; /* Make the button span both columns */
@@ -291,36 +311,33 @@ button {
     transition: background-color 0.3s; /* Smooth transition for hover */
 }
 
-button:hover {
-    background-color: #0056b3; /* Darker color on hover */
-}
+    button:hover {
+        background-color: #0056b3; /* Darker color on hover */
+    }
 
 /* Responsive styles for smaller screens */
 @media (max-width: 600px) {
     .starship-form {
         grid-template-columns: 1fr; /* Switch to one column on small screens */
-    
     }
 }
 
-    .starship-form input,
-    .starship-form select {
-        margin-bottom: 15px;
-        padding: 10px;
-        font-size: 16px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        transition: border-color 0.3s;
-        width: 80%; /* Set width to 80% for inputs */
+.starship-form input,
+.starship-form select {
+    margin-bottom: 15px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: border-color 0.3s;
+    width: 80%; /* Set width to 80% for inputs */
+}
+
+    .starship-form input:focus,
+    .starship-form select:focus {
+        border-color: #007bff; /* Focus border color */
+        outline: none;
     }
-
-        .starship-form input:focus,
-        .starship-form select:focus {
-            border-color: #007bff; /* Focus border color */
-            outline: none;
-        }
-
-
 
 /* Responsive Adjustments */
 @media (max-width: 600px) {
@@ -398,18 +415,20 @@ td {
         .reset-button:hover {
             background-color: #c62828; /* Reset button hover color */
         }
+
     body {
         margin: 0;
-        display:contents;
+        display: contents;
         flex-direction: column; /* Stack elements vertically */
         align-items: center; /* Center align items */
         justify-content: center; /* Center vertically */
         min-width: 320px;
         min-height: 100vh;
-        background-color: var(--background-color); /* Set to the new background color */
+        background-color: #1a1a1a;
         padding: 20px; /* Add padding for small screens */
         box-sizing: border-box; /* Include padding in width and height calculations */
     }
+
     .form-container,
     .starship-container {
         max-width: 600px; /* Maximum width for containers */
@@ -424,6 +443,7 @@ td {
         flex-direction: column; /* Stack children vertically */
         align-items: center; /* Center children */
     }
+
     h1 {
         font-size: 2em; /* Adjust font size for mobile */
     }
@@ -452,6 +472,7 @@ td {
     button {
         width: 45%; /* Adjust button width for tablets */
     }
+
     .form-container,
     .starship-container {
         max-width: 600px; /* Maximum width for containers */
@@ -496,10 +517,11 @@ td {
         padding: 15px 20px; /* Increased padding for better touch targets */
     }
 }
+
 @media (prefers-color-scheme: light) {
     :root {
         color: #213547;
-        background-color: #ffffff; /* Light mode colors */
+        background-color: #bcc4cc; /* Light mode colors */
     }
 
     a:hover {
@@ -512,11 +534,10 @@ td {
         width: 100%; /* Full width buttons for mobile */
         font-size: 1.5em; /* Larger font size for buttons */
     }
+
     h1 {
         font-size: 3em; /* Larger font size for mobile */
     }
-
-   
 
     .card button {
         padding: 15px 0px; /* Increased padding for better touch targets */
