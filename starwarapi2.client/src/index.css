@@ -20,12 +20,49 @@ body {
     justify-content: center; /* Center vertically */
     min-width: 320px;
     min-height: 100vh;
-    background-color: var(--background-color); /* Set to the new background color */
+    background-color: #1a1a1a; /* Dark background resembling Coruscant's city lights at night */
+    background-image: url('Coruscant-SWJS.jpg'); /* Optionally add a background image of Coruscant */
+    background-size: cover; /* Ensure the background covers the entire screen */
+    background-position: center; /* Center the background image */
+
     padding: 20px; /* Add padding for small screens */
     box-sizing: border-box; /* Include padding in width and height calculations */
+    font-family: 'Roboto', sans-serif; /* Use a clean, modern font */
+}
+/* X-wing animation */
+@keyframes fly-around {
+    0% {
+        transform: translate(120vw, 30vh) rotate(0deg) scale(0.5); /* Start off-screen on the right */
+    }
 
+    25% {
+        transform: translate(50vw, 40vh) rotate(-15deg) scale(0.6); /* Moves left and down */
+    }
+
+    50% {
+        transform: translate(-100vw, -20vh) rotate(20deg) scale(0.7); /* Move off-screen on the left */
+    }
+
+    75% {
+        transform: translate(50vw, -30vh) rotate(-10deg) scale(0.6); /* Come back from left to center */
+    }
+
+    100% {
+        transform: translate(100vw, 0) rotate(0deg) scale(0.5); /* End back off-screen on the right */
+    }
 }
 
+.xwing {
+    position: fixed; /* Make sure the X-wing is fixed in the background */
+    top: 0;
+    left: 0;
+    z-index: 2; /* Keep it behind the content */
+    width: 150px; /* Adjust the size of the X-wing */
+    animation: fly-around 15s linear infinite; /* Animate the X-wing */
+    pointer-events: none; /* Ensure it doesn’t block interaction */
+    opacity: 0.8; /* Slight transparency */
+    transform: scaleX(-1); /* Flip the X-wing horizontally */
+}
 h1 {
     font-size: 2.5em; /* Responsive heading size */
     line-height: 1.1;
@@ -216,9 +253,12 @@ a {
 }
 
 .form-group {
-    display: flex; /* Use flexbox for vertical alignment */
-    flex-direction: column; /* Stack title and input vertically */
-    align-items: flex-start; /* Align items to the start (left) */
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
 }
 
 h3 {
