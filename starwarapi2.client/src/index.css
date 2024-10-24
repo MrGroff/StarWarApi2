@@ -3,22 +3,27 @@
     --text-color: #000000; /* Dark text for readability */
     --accent-color: #ffcc00; /* Yellow accent color */
     --border-color: rgba(255, 255, 255, 0.2); /* Soft white for borders */
+    --card-bg-color: #444; /* Dark card background */
+    --light-card-bg-color: #f9f9f9; /* Light background color for containers */
+    --button-bg-color: #1a1a1a; /* Dark button background */
     font-family: 'Star Jedi', sans-serif; /* Star Wars-themed font */
     color-scheme: light dark;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Star+Jedi&display=swap'); /* Import Star Wars font */
+/*@import url('https://fonts.googleapis.com/css2?family=Star+Jedi&display=swap');*/ /* Import Star Wars font */
 
 body {
     margin: 0;
     display: flex;
     flex-direction: column; /* Stack elements vertically */
-    align-items: center;
+    align-items: center; /* Center align items */
+    justify-content: center; /* Center vertically */
     min-width: 320px;
     min-height: 100vh;
     background-color: var(--background-color); /* Set to the new background color */
     padding: 20px; /* Add padding for small screens */
     box-sizing: border-box; /* Include padding in width and height calculations */
+
 }
 
 h1 {
@@ -38,31 +43,86 @@ a {
     a:hover {
         color: #ffdb4a; /* Brighter yellow on hover */
     }
+.button-group {
+    display: contents; /* Use flexbox for alignment */
+    justify-content: center; /* Center align buttons */
+    width: 200%; /* Full width for button group */
+    padding: 20px 0; /* Optional: vertical padding for spacing */
+    gap: 10px; /* Space between buttons */
+}
+
+.submit-button-container,
+.reset-button-container {
+    flex: 1; /* Allow containers to grow */
+    display: flex; /* Use flexbox for button alignment */
+    justify-content: center; /* Center button horizontally */
+}
+
+/* Submit Button Styles */
+.submit-button {
+    justify-content:left;
+    background-color: #007bff; /* Submit button color */
+    color: white;
+}
+
+    .submit-button:hover {
+        background-color: #0056b3; /* Submit button hover color */
+    }
+
+/* Reset Button Styles */
+.reset-button {
+    justify-content: right;
+    background-color: #f44336; /* Reset button color */
+    color: white;
+}
+
+    .reset-button:hover {
+        background-color: #c62828; /* Reset button hover color */
+    }
 
 .form-container,
 .starship-container {
-    
-    max-width: 100%; /* Full width for mobile devices */
-    margin: 20px 10px; /* Center the container with reduced side margins */
+    max-width: 600px; /* Maximum width for containers */
+    justify-content:center;
+    width: 100%; /* Full width for mobile devices */
+    margin: 20px auto; /* Center the container with reduced side margins */
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-    background-color: #f9f9f9; /* Light background color */
+    background-color: var(--light-card-bg-color); /* Light background color */
+    display: flex; /* Use flexbox for centering */
+    flex-direction: column; /* Stack children vertically */
+    align-items: center; /* Center children */
+}
+
+
+
+.starship-list {
+    display: flex;
+    flex-wrap: wrap; /* Allows cards to wrap onto the next line */
+    justify-content: center; /* Center align cards horizontally */
+    margin: 20px 0; /* Margin around the list */
 }
 
 .card {
-    white-space: nowrap;
-    padding: 20px;
-    margin: 10px;
-    border: 1px solid #ddd;
-    background-color: #444; /* Dark card background */
-    color: white;
-    border-radius: 5px;
-    text-align: center;
+    margin: 10px; /* Margin around each card */
+    padding: 20px; /* Padding inside the card */
+    border-radius: 8px; /* Rounded corners */
+    background-color: var(--card-bg-color); /* Background color for cards */
+    color: white; /* Text color */
+    width: 400px; /* Fixed width for cards */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    display: flex;
+    flex-direction: column; /* Stack card contents vertically */
+    align-items: baseline; /* Center contents */
 }
-
+.button-container {
+    display: flex; /* Use flexbox to align buttons in a row */
+    justify-content: space-between; /* Space buttons evenly */
+    width: 100%; /* Make the container full width */
+}
     .card button {
-        background-color: #ffcc00;
+        background-color: var(--accent-color);
         border: none;
         padding: 10px 15px; /* Increased padding for better touch targets */
         margin: 5px 0; /* Small vertical margin for spacing */
@@ -135,17 +195,72 @@ a {
 }
 
 /* Starship details */
-.starship-details h2 {
-    margin: 10px 0; /* Space above and below the title */
+.starship-details {
+    text-align: center; /* Center align text */
 }
 
-.starship-details p {
-    margin: 5px 0; /* Space between paragraphs */
-}
+    .starship-details h2 {
+        margin: 10px 0; /* Space above and below the title */
+    }
+
+    .starship-details p {
+        margin: 5px 0; /* Space between paragraphs */
+    }
 
 .starship-form {
-    display: flex;
-    flex-direction: column;
+    display: grid; /* Enable grid layout */
+    grid-template-columns: repeat(2, 1fr); /* Create two equal columns */
+    gap: 20px; /* Space between fields */
+    width: 100%; /* Full width for the form */
+    padding: 20px; /* Padding for the form */
+}
+
+.form-group {
+    display: flex; /* Use flexbox for vertical alignment */
+    flex-direction: column; /* Stack title and input vertically */
+    align-items: flex-start; /* Align items to the start (left) */
+}
+
+h3 {
+    margin-bottom: 5px; /* Space between title and input */
+    font-size: 1em; /* Adjust font size for titles */
+}
+
+input {
+    width: 100%; /* Full width for inputs */
+    padding: 10px; /* Padding for inputs */
+    border: 1px solid #ccc; /* Border for inputs */
+    border-radius: 4px; /* Rounded corners */
+    transition: border-color 0.3s; /* Smooth transition for focus */
+}
+
+input:focus {
+    border-color: #007bff; /* Focus border color */
+    outline: none; /* Remove default outline */
+}
+
+button {
+    grid-column: span 2; /* Make the button span both columns */
+    padding: 10px 15px; /* Padding for button */
+    font-size: 1em; /* Button font size */
+    border: none; /* Remove border */
+    border-radius: 4px; /* Rounded corners */
+    background-color: #007bff; /* Button color */
+    color: white; /* Text color */
+    cursor: pointer; /* Pointer on hover */
+    transition: background-color 0.3s; /* Smooth transition for hover */
+}
+
+button:hover {
+    background-color: #0056b3; /* Darker color on hover */
+}
+
+/* Responsive styles for smaller screens */
+@media (max-width: 600px) {
+    .starship-form {
+        grid-template-columns: 1fr; /* Switch to one column on small screens */
+    
+    }
 }
 
     .starship-form input,
@@ -156,6 +271,7 @@ a {
         border: 1px solid #ccc;
         border-radius: 4px;
         transition: border-color 0.3s;
+        width: 80%; /* Set width to 80% for inputs */
     }
 
         .starship-form input:focus,
@@ -164,38 +280,15 @@ a {
             outline: none;
         }
 
-.button-group {
-    display: flex;
-    justify-content: space-between;
-}
 
-.submit-button,
-.reset-button {
-    padding: 10px 15px;
-    font-size: 16px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
 
-.submit-button {
-    background-color: #007bff; /* Submit button color */
-    color: white;
-}
-
-    .submit-button:hover {
-        background-color: #0056b3; /* Submit button hover color */
+/* Responsive Adjustments */
+@media (max-width: 600px) {
+    .submit-button,
+    .reset-button {
+        width: 90%; /* Full width on mobile */
     }
-
-.reset-button {
-    background-color: #f44336; /* Reset button color */
-    color: white;
 }
-
-    .reset-button:hover {
-        background-color: #c62828; /* Reset button hover color */
-    }
 
 button {
     border-radius: 8px;
@@ -203,7 +296,7 @@ button {
     padding: 0.6em 1.2em;
     font-size: 1em;
     font-weight: 500;
-    background-color: #1a1a1a; /* Dark button background */
+    background-color: var(--button-bg-color); /* Dark button background */
     color: var(--text-color);
     cursor: pointer;
     transition: border-color 0.25s, background-color 0.25s; /* Added transition for background color */
@@ -221,15 +314,76 @@ button {
 table {
     width: 100%; /* Full width for table */
     border-collapse: collapse; /* Collapses borders */
+    margin: 20px 0; /* Margin for table */
 }
 
 th,
 td {
     padding: 0.8em; /* Padding for table cells */
-    text-align: left; /* Left align text */
+    text-align: center; /* Center align text in table cells */
 }
 
 @media (max-width: 600px) {
+    .button-group {
+        display: flex; /* Use flexbox for alignment */
+        justify-content: center; /* Center align buttons */
+        width: 100%; /* Full width for button group */
+        padding: 20px 0; /* Optional: vertical padding for spacing */
+        gap: 10px; /* Space between buttons */
+    }
+
+    .submit-button-container,
+    .reset-button-container {
+        flex: 1; /* Allow containers to grow */
+        display: flex; /* Use flexbox for button alignment */
+        justify-content: center; /* Center button horizontally */
+    }
+
+    /* Submit Button Styles */
+    .submit-button {
+        background-color: #007bff; /* Submit button color */
+        color: white;
+    }
+
+        .submit-button:hover {
+            background-color: #0056b3; /* Submit button hover color */
+        }
+
+    /* Reset Button Styles */
+    .reset-button {
+        background-color: #f44336; /* Reset button color */
+        color: white;
+    }
+
+        .reset-button:hover {
+            background-color: #c62828; /* Reset button hover color */
+        }
+    body {
+        margin: 0;
+        display:contents;
+        flex-direction: column; /* Stack elements vertically */
+        align-items: center; /* Center align items */
+        justify-content: center; /* Center vertically */
+        min-width: 320px;
+        min-height: 100vh;
+        background-color: var(--background-color); /* Set to the new background color */
+        padding: 20px; /* Add padding for small screens */
+        box-sizing: border-box; /* Include padding in width and height calculations */
+    }
+    .form-container,
+    .starship-container {
+        max-width: 600px; /* Maximum width for containers */
+        justify-content: center;
+        width: 100%; /* Full width for mobile devices */
+        margin: 20px auto; /* Center the container with reduced side margins */
+        padding: 5px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        background-color: var(--light-card-bg-color); /* Light background color */
+        display: flex; /* Use flexbox for centering */
+        flex-direction: column; /* Stack children vertically */
+        align-items: center; /* Center children */
+    }
     h1 {
         font-size: 2em; /* Adjust font size for mobile */
     }
@@ -249,6 +403,59 @@ td {
     }
 }
 
+/* For tablet-specific styles */
+@media (min-width: 600px) and (max-width: 1024px) {
+    h1 {
+        font-size: 2.2em; /* Responsive heading size */
+    }
+
+    button {
+        width: 45%; /* Adjust button width for tablets */
+    }
+    .form-container,
+    .starship-container {
+        max-width: 600px; /* Maximum width for containers */
+        justify-content: center;
+        width: 100%; /* Full width for mobile devices */
+        margin: 10px auto; /* Center the container with reduced side margins */
+        padding: 0px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        background-color: var(--light-card-bg-color); /* Light background color */
+        display: flex; /* Use flexbox for centering */
+        flex-direction: column; /* Stack children vertically */
+        align-items: center; /* Center children */
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        color: #ffffff; /* Dark mode text color */
+        background-color: #1a1a1a; /* Dark mode background color */
+    }
+
+    a:hover {
+        color: #ffcc00; /* Brighter yellow hover color in dark mode */
+    }
+
+    button {
+        background-color: #2a2a2a; /* Dark button background */
+        color: #fff; /* Light text in dark mode */
+    }
+
+    h1 {
+        font-size: 3em; /* Larger font size for mobile */
+    }
+
+    button {
+        width: 100%; /* Full width buttons for mobile */
+        font-size: 1.5em; /* Larger font size for buttons */
+    }
+
+    .card button {
+        padding: 15px 20px; /* Increased padding for better touch targets */
+    }
+}
 @media (prefers-color-scheme: light) {
     :root {
         color: #213547;
@@ -262,5 +469,16 @@ td {
     button {
         background-color: #f9f9f9; /* Light button background */
         color: #000; /* Dark text in light mode */
+        width: 100%; /* Full width buttons for mobile */
+        font-size: 1.5em; /* Larger font size for buttons */
+    }
+    h1 {
+        font-size: 3em; /* Larger font size for mobile */
+    }
+
+   
+
+    .card button {
+        padding: 15px 0px; /* Increased padding for better touch targets */
     }
 }

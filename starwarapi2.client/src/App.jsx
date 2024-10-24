@@ -1,15 +1,13 @@
 import { useEffect, useState } from 'react';
 import './App.css';
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 
 function App() {
-    const [starships, setStarships] = useState([]);
-    const [loading, setLoading] = useState(false);
-    
-    const [selectedStarship, setSelectedStarship] = useState(null);
-    const [manufacturers, setManufacturers] = useState([]);
+    const [starships, setStarships] = useState([]);// List of starships
+    const [loading, setLoading] = useState(false); // Loading state
+
+    const [selectedStarship, setSelectedStarship] = useState(null); // Currently selected starship
+    const [manufacturers, setManufacturers] = useState([]);// List of manufacturers
+
     const [editStarship, setEditStarship] = useState({
         id: '',
         name: '',
@@ -26,7 +24,7 @@ function App() {
         passengers: '',
         hyperdriveRating: '',
         films: []
-    });
+    });/* Initial state for editing a starship */
     const [newStarship, setNewStarship] = useState({
         name: '',
         model: '',
@@ -42,10 +40,16 @@ function App() {
         passengers: '',
         hyperdriveRating: '',
         films: []
-    });
-    const [retryCount, setRetryCount] = useState(0); // For starship retry
-    const [manufacturerRetryCount, setManufacturerRetryCount] = useState(0); // For manufacturer retry
+    }); /* Initial state for creating a new starship */
+    // eslint-disable-next-line no-unused-vars
+    const [retryCount, setRetryCount] = useState(0);  // For tracking retries for starship fetch
+    // eslint-disable-next-line no-unused-vars
+    const [manufacturerRetryCount, setManufacturerRetryCount] = useState(0); // For tracking retries for manufacturer fetch
+    const [searchTerm, setSearchTerm] = useState('');// State for the search input
 
+    const filteredStarships = starships.filter(starship =>
+        starship.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );// Filtered starships based on search term
     useEffect(() => {
         const fetchDataWithRetry = async () => {
             await fetchStarshipsWithRetry();
@@ -53,7 +57,7 @@ function App() {
         };
 
         fetchDataWithRetry();
-    }, []); // Empty dependency array to run once
+    }, []);     // useEffect to fetch data on component mount
 
     const fetchStarshipsWithRetry = async () => {
         const maxRetries = 5; // Maximum number of retries
@@ -62,7 +66,9 @@ function App() {
         const retryFetch = async (attempt = 0) => {
             try {
                 await fetchStarships();
-            } catch (error) {
+            }
+            // eslint-disable-next-line no-unused-vars
+            catch (error) {
                 if (attempt < maxRetries) {
                     setRetryCount(attempt + 1); // Increment retry count
                     console.log(`Retrying starship fetch... attempt ${attempt + 1}`);
@@ -72,7 +78,7 @@ function App() {
                     setLoading(false); // Stop loading after max retries
                 }
             }
-        };
+        };// Function to fetch starships with retry logic
 
         retryFetch(); // Start retrying
     };
@@ -84,6 +90,7 @@ function App() {
         const retryFetch = async (attempt = 0) => {
             try {
                 await fetchManufacturers();
+            // eslint-disable-next-line no-unused-vars
             } catch (error) {
                 if (attempt < maxRetries) {
                     setManufacturerRetryCount(attempt + 1); // Increment retry count for manufacturers
@@ -97,7 +104,7 @@ function App() {
         };
 
         retryFetch(); // Start retrying
-    };
+    };// Function to fetch manufacturers with retry logic
 
     const fetchStarships = async () => {
         setLoading(true);
@@ -114,7 +121,7 @@ function App() {
             }
 
             const data = await response.json();
-            
+
             setStarships(data);
             selectRandomStarship(data);
         } catch (error) {
@@ -146,7 +153,6 @@ function App() {
         }
     };
 
-
     const selectRandomStarship = (starships) => {
         if (starships.length > 0) {
             const randomIndex = Math.floor(Math.random() * starships.length);
@@ -168,12 +174,12 @@ function App() {
             }));
         }
     };
-
+    // Function to handle form submission for creating/updating starship
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             let response;
-
+            // Check if we're editing or creating a new starship
             if (editStarship.id) {
                 response = await fetch(`/starships/update/${editStarship.id}`, {
                     method: 'PUT',
@@ -212,7 +218,7 @@ function App() {
             console.error('Error creating/updating starship:', error);
         }
     };
-
+    // Function to set the edit form with the selected starship details
     const handleEdit = (starship) => {
         setEditStarship(starship);
         setNewStarship({
@@ -251,7 +257,7 @@ function App() {
 
             // If delete was successful, refresh the page quietly
             console.log('Starship deleted successfully');
-            
+            window.location.reload(); // Refresh the page
         } catch (error) {
             console.error('Error deleting starship:', error);
 
@@ -300,32 +306,6 @@ function App() {
         });
     };
 
-    const sliderSettings = {
-        dots: true,
-        infinite: false,
-        speed: 500,
-        slidesToShow: 3,
-        slidesToScroll: 1,
-        responsive: [
-            {
-                breakpoint: 1024,
-                settings: {
-                    slidesToShow: 3,
-                    slidesToScroll: 1,
-                    infinite: true,
-                    dots: true
-                }
-            },
-            {
-                breakpoint: 600,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1
-                }
-            }
-        ]
-    };
-
     return (
         <div>
             <div className="starship-container">
@@ -351,121 +331,171 @@ function App() {
             </div>
 
             <div className="form-container">
-                <h2>{editStarship.id ? 'Edit Starship' : 'Create Starship'}</h2>
+                <h3>{editStarship.id ? 'Edit Starship' : 'Create Starship'}</h3>
                 <form onSubmit={handleSubmit} className="starship-form">
-                    <input
-                        name="name"
-                        placeholder="Name"
-                        value={editStarship.id ? editStarship.name : newStarship.name}
-                        onChange={handleInputChange}
-                        required
-                    />
-                    <input
-                        name="model"
-                        placeholder="Model"
-                        value={editStarship.id ? editStarship.model : newStarship.model}
-                        onChange={handleInputChange}
-                        required
-                    />
-                    <select
-                        name="manufacturer"
-                        value={editStarship.id ? editStarship.manufacturer : newStarship.manufacturer}
-                        onChange={handleInputChange}
-                        required
-                    >
-                        <option value="" disabled>Select Manufacturer</option>
-                        {manufacturers.map(manufacturer => (
-                            <option key={manufacturer} value={manufacturer}>{manufacturer}</option>
-                        ))}
-                    </select>
-                    <input
-                        name="costInCredits"
-                        placeholder="Cost in Credits"
-                        value={editStarship.id ? editStarship.costInCredits : newStarship.costInCredits}
-                        onChange={handleInputChange}
-                        required
-                    />
-                    <input
-                        name="cargoCapacity"
-                        placeholder="Cargo Capacity"
-                        value={editStarship.id ? editStarship.cargoCapacity : newStarship.cargoCapacity}
-                        onChange={handleInputChange}
-                        required
-                    />
-                    <input
-                        name="consumables"
-                        placeholder="Consumables"
-                        value={editStarship.id ? editStarship.consumables : newStarship.consumables}
-                        onChange={handleInputChange}
-                        required
-                    />
-                    <input
-                        name="crew"
-                        placeholder="Crew"
-                        value={editStarship.id ? editStarship.crew : newStarship.crew}
-                        onChange={handleInputChange}
-                        required
-                    />
-                    <input
-                        name="length"
-                        placeholder="Length"
-                        value={editStarship.id ? editStarship.length : newStarship.length}
-                        onChange={handleInputChange}
-                        required
-                    />
-                    <input
-                        name="maxAtmospheringSpeed"
-                        placeholder="Max Atmosphering Speed"
-                        value={editStarship.id ? editStarship.maxAtmospheringSpeed : newStarship.maxAtmospheringSpeed}
-                        onChange={handleInputChange}
-                        required
-                    />
-                    <input
-                        name="mglt"
-                        placeholder="MGLT"
-                        value={editStarship.id ? editStarship.mglt : newStarship.mglt}
-                        onChange={handleInputChange}
-                        required
-                    />
-                    <input
-                        name="passengers"
-                        placeholder="Passengers"
-                        value={editStarship.id ? editStarship.passengers : newStarship.passengers}
-                        onChange={handleInputChange}
-                        required
-                    />
-                    <input
-                        name="hyperdriveRating"
-                        placeholder="Hyperdrive Rating"
-                        value={editStarship.id ? editStarship.hyperdriveRating : newStarship.hyperdriveRating}
-                        onChange={handleInputChange}
-                        required
-                    />
+                    <div className="form-group">
+                        <h3>Name</h3>
+                        <input
+                            name="name"
+                            placeholder="Name"
+                            value={editStarship.id ? editStarship.name : newStarship.name}
+                            onChange={handleInputChange}
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <h3>Model</h3>
+                        <input
+                            name="model"
+                            placeholder="Model"
+                            value={editStarship.id ? editStarship.model : newStarship.model}
+                            onChange={handleInputChange}
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <h3>Manufacturer</h3>
+                        <select
+                            name="manufacturer"
+                            value={editStarship.id ? editStarship.manufacturer : newStarship.manufacturer}
+                            onChange={handleInputChange}
+                            required
+                        >
+                            <option value="" disabled>Select Manufacturer</option>
+                            {manufacturers.map(manufacturer => (
+                                <option key={manufacturer} value={manufacturer}>{manufacturer}</option>
+                            ))}
+                        </select>
+                    </div>
+                    <div className="form-group">
+                        <h3>Cost In Credits</h3>
+                        <input
+                            name="costInCredits"
+                            placeholder="Cost in Credits"
+                            value={editStarship.id ? editStarship.costInCredits : newStarship.costInCredits}
+                            onChange={handleInputChange}
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <h3>Cargo Capacity</h3>
+                        <input
+                            name="cargoCapacity"
+                            placeholder="Cargo Capacity"
+                            value={editStarship.id ? editStarship.cargoCapacity : newStarship.cargoCapacity}
+                            onChange={handleInputChange}
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <h3>Consumables</h3>
+                        <input
+                            name="consumables"
+                            placeholder="Consumables"
+                            value={editStarship.id ? editStarship.consumables : newStarship.consumables}
+                            onChange={handleInputChange}
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <h3>Crew Size</h3>
+                        <input
+                            name="crew"
+                            placeholder="Crew"
+                            value={editStarship.id ? editStarship.crew : newStarship.crew}
+                            onChange={handleInputChange}
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <h3>Ship Length</h3>
+                        <input
+                            name="length"
+                            placeholder="Length"
+                            value={editStarship.id ? editStarship.length : newStarship.length}
+                            onChange={handleInputChange}
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <h3>Max Atmosphering Speed</h3>
+                        <input
+                            name="maxAtmospheringSpeed"
+                            placeholder="Max Atmosphering Speed"
+                            value={editStarship.id ? editStarship.maxAtmospheringSpeed : newStarship.maxAtmospheringSpeed}
+                            onChange={handleInputChange}
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <h3>Megalight</h3>
+                        <input
+                            name="mglt"
+                            placeholder="MGLT"
+                            value={editStarship.id ? editStarship.mglt : newStarship.mglt}
+                            onChange={handleInputChange}
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <h3>Passengers Size</h3>
+                        <input
+                            name="passengers"
+                            placeholder="Passengers"
+                            value={editStarship.id ? editStarship.passengers : newStarship.passengers}
+                            onChange={handleInputChange}
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <h3>Hyperdrive Rating</h3>
+                        <input
+                            name="hyperdriveRating"
+                            placeholder="Hyperdrive Rating"
+                            value={editStarship.id ? editStarship.hyperdriveRating : newStarship.hyperdriveRating}
+                            onChange={handleInputChange}
+                            required
+                        />
+                    </div>
                     <div className="button-group">
-                        <button type="submit" className="submit-button">
-                            {editStarship.id ? 'Update Starship' : 'Create Starship'}
-                        </button>
-                        <button type="button" className="reset-button" onClick={resetForm}>Reset</button>
+                        <div className="submit-button-container"> {/* Container for the Submit button */}
+                            <button type="submit" className="submit-button">
+                                {editStarship.id ? 'Update Starship' : 'Create Starship'}
+                            </button>
+                        </div>
+                        <div className="reset-button-container"> {/* Container for the Reset button */}
+                            <button type="button" className="reset-button" onClick={resetForm}>
+                                Reset
+                            </button>
+                        </div>
                     </div>
                 </form>
             </div>
 
             <h2>Starship List</h2>
+            <input
+                type="text"
+                placeholder="Search by starship name..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+            />
             {loading ? (
                 <p><em>Loading starship list...</em></p>
-            ) : starships.length > 0 ? (
-                <Slider {...sliderSettings}>
-                    {starships.map(starship => (
+            ) : filteredStarships.length > 0 ? (
+                <div className="starship-list">
+                    {filteredStarships.map(starship => (
                         <div key={starship.id} className="card">
                             <h3>{starship.name}</h3>
                             <p><strong>Model:</strong> {starship.model}</p>
                             <p><strong>Manufacturer:</strong> {starship.manufacturer}</p>
                             <p><strong>Cost (Credits):</strong> {starship.costInCredits}</p>
-                            <button onClick={() => handleEdit(starship)}>Edit</button>
-                            <button onClick={() => handleDelete(starship.id)}>Delete</button>
+                            <div className="button-container">
+                                <button onClick={() => handleEdit(starship)}>Edit</button>
+                                <button onClick={() => handleDelete(starship.id)}>Delete</button>
+                            </div>
                         </div>
                     ))}
-                </Slider>
+                </div>
             ) : (
                 <p>No starships found.</p>
             )}
