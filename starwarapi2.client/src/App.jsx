@@ -311,7 +311,7 @@ function App() {
             <img src="../src/xwingnew.png" alt="X-wing" className="xwing" />
             
             <div className="starship-container">
-                <h1 id="tableLabel">Random Starship</h1>
+                <h1 className="tableLabel">Random Starship</h1>
                 <p>This component demonstrates fetching starship data from the API.</p>
 
                 {loading ? (
@@ -474,7 +474,7 @@ function App() {
                 </form>
             </div>
 
-            <h2>Starship List</h2>
+            <h2 className="listLabel">Starship List</h2>
             <input
                 type="text"
                 placeholder="Search by starship name..."
