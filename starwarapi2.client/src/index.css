@@ -23,6 +23,7 @@ body {
     background-color: var(--background-color); /* Set to the new background color */
     padding: 20px; /* Add padding for small screens */
     box-sizing: border-box; /* Include padding in width and height calculations */
+
 }
 
 h1 {
@@ -478,6 +479,6 @@ td {
    
 
     .card button {
-        padding: 15px 20px; /* Increased padding for better touch targets */
+        padding: 15px 0px; /* Increased padding for better touch targets */
     }
 }
